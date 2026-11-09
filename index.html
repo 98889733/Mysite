@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Пробный сайт</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Onest:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f6f7fb; --ink:#161a33; --muted:#555b7a; --blue:#2340e0; --on-blue:#ffffff; --sun:#ffc93c; --card:#ffffff; --line:#d9dcec;
+  color-scheme: light dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#0f1226;--ink:#eef0ff;--muted:#a3a8cc;--blue:#5b74ff;--card:#181c3a;--line:#2a2f5a;}
+}
+:root[data-theme="dark"]{--bg:#0f1226;--ink:#eef0ff;--muted:#a3a8cc;--blue:#5b74ff;--card:#181c3a;--line:#2a2f5a;}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 Onest,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:0 20px 40px}
+h1,h2{font-family:Unbounded,"Arial Black",system-ui,sans-serif;line-height:1.1;margin:0}
+.hero{background:var(--blue);color:var(--on-blue);margin:0 -20px;padding:48px 20px 40px;border-radius:0 0 28px 28px}
+.hero h1{font-weight:800;font-size:clamp(34px,10vw,56px);letter-spacing:-.02em}
+.hero p{max-width:34ch;margin:18px 0 26px;font-size:18px}
+.live{display:inline-block;background:var(--sun);color:#161a33;font-weight:500;padding:10px 16px;border-radius:999px;font-size:15px}
+section{padding-top:40px}
+h2{font-weight:600;font-size:24px;margin-bottom:16px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px}
+.item b{display:block;font-weight:500;margin-bottom:2px}
+.item span{color:var(--muted);font-size:15px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+button{font:500 16px Onest,system-ui,sans-serif;min-height:48px;padding:0 20px;border-radius:14px;border:2px solid var(--blue);background:transparent;color:var(--blue);cursor:pointer}
+button.main{background:var(--blue);color:var(--on-blue)}
+button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+#msg{margin-top:14px;min-height:1.6em;color:var(--muted)}
+footer{padding-top:36px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <h1>Привет! Ваш сайт открылся.</h1>
+    <p>Это пробная страница: она работает на телефоне и открывается по ссылке.</p>
+    <span class="live" id="live">Ширина экрана: …</span>
+  </header>
+
+  <section>
+    <h2>Что здесь есть</h2>
+    <div class="item"><b>Подстройка под экран</b><span>На телефоне и на компьютере страница выглядит по-разному.</span></div>
+    <div class="item"><b>Светлая и тёмная тема</b><span>Сайт сам следует настройкам вашего телефона.</span></div>
+    <div class="item"><b>Кнопки, которые работают</b><span>Попробуйте нажать их ниже.</span></div>
+  </section>
+
+  <section>
+    <h2>Попробуйте</h2>
+    <div class="btns">
+      <button class="main" id="count">Нажато: 0</button>
+      <button id="theme">Сменить тему</button>
+    </div>
+    <p id="msg">Нажмите на любую кнопку.</p>
+  </section>
+
+  <footer>Пробный сайт · сделан в чате с Claude</footer>
+</main>
+<script>
+(function(){
+  var live=document.getElementById('live');
+  function size(){live.textContent='Ширина экрана: '+window.innerWidth+' px';}
+  size(); window.addEventListener('resize',size);
+  var n=0,msg=document.getElementById('msg'),btn=document.getElementById('count');
+  btn.addEventListener('click',function(){
+    n++; btn.textContent='Нажато: '+n;
+    msg.textContent=n<5?'Работает!':'Отлично, сайт живой. Можно строить настоящий.';
+  });
+  var dark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.getElementById('theme').addEventListener('click',function(){
+    dark=!dark;
+    document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+    msg.textContent=dark?'Тёмная тема включена.':'Светлая тема включена.';
+  });
+})();
+</script>
+</body>
+</html>
